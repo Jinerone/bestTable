@@ -1,11 +1,24 @@
-import { Button } from 'antd';
+import { Button, Col } from "antd";
+import { useStore } from "../../business";
 
-export default function AnswerCase(number: number): JSX.Element {
+interface AnswerBoxProps {
+  number: number;
+}
+
+export default function AnswerBox(values: AnswerBoxProps): JSX.Element {
+  const { isActive } = useStore((state) => ({
+    isActive: state.possibleAnswerBoxes[values.number] !== undefined,
+  }));
   return (
-    <>
-      <Button type="primary" shape="circle" size="large">
-        {number}
+    <Col>
+      <Button
+        type={isActive ? "primary" : "default"}
+        shape="circle"
+        size="large"
+        disabled={!isActive}
+      >
+        {values.number}
       </Button>
-    </>
+    </Col>
   );
 }
