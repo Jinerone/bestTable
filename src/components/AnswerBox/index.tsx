@@ -3,12 +3,18 @@ import { useStore } from "../../business";
 
 interface AnswerBoxProps {
   number: number;
+  onSelect: (number: number) => void;
 }
 
-export default function AnswerBox(values: AnswerBoxProps): JSX.Element {
+export default function AnswerBox(props: AnswerBoxProps): JSX.Element {
   const { isActive } = useStore((state) => ({
-    isActive: state.possibleAnswerBoxes[values.number] !== undefined,
+    isActive: state.possibleAnswerBoxes.filter((value) => value === props.number).length > 0,
   }));
+
+  function handleClick() {
+    props.onSelect(props.number);
+  }
+
   return (
     <Col>
       <Button
@@ -16,8 +22,9 @@ export default function AnswerBox(values: AnswerBoxProps): JSX.Element {
         shape="circle"
         size="large"
         disabled={!isActive}
+        onClick={handleClick}
       >
-        {values.number}
+        {props.number}
       </Button>
     </Col>
   );

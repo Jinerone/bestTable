@@ -2,22 +2,25 @@ import React from "react";
 import "./App.css";
 import AnswerGrid from "./components/AnswerGrid";
 import { Layout, Card } from "antd";
-import { SetupUser } from "./components/setupUser";
+import QuestionTag from "./components/QuestionTag";
+import Game from "./components/Game/game";
 
 const { Header, Footer, Content } = Layout;
+
+const styles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 
 function App() {
   return (
     <>
-      <Layout>
-        <Header>Header</Header>
+      <Layout style={styles}>
         <Content>
-          <Card>
-            <AnswerGrid />
-          </Card>
-          <SetupUser />
+            <Game />
         </Content>
-        <Footer>Footer</Footer>
       </Layout>
     </>
   );

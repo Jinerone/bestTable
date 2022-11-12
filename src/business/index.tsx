@@ -1,35 +1,32 @@
-import create from 'zustand';
-import MathResponse from '../types';
+import create from "zustand";
 
-export interface GameStore {
-    possibleAnswerBoxes: number[],
-    addPossibleAnswerBox: (index: number) => void, 
+export interface RunStore {
+  isModalSetupVisible: boolean;
+  setIsModalSetupVisible: (visible: boolean) => void;
 
-    questions: Array<Array<number>>,
-    setQuestions: (questions: Array<Array<number>>) => void,
+  possibleAnswerBoxes: number[];
+  setPossibleAnswerBoxes: (answerBoxes: number[]) => void;
 
-    responses: Array<Array<MathResponse>>,
-    setResponses: (responses: Array<Array<MathResponse>>) => void,
-
-    questionLevel: ('low' | 'medium' | 'hard'),
-    setQuestionLevel: (level: ('low' | 'medium' | 'hard')) => void
+  question: string | undefined;
+  setQuestion: (question: string) => void;
 }
 
-export const useStore = create<GameStore>((set) => ({
-    possibleAnswerBoxes: new Array<number>(),
-    addPossibleAnswerBox: (index: number) => set((state) => ({
-        possibleAnswerBoxes: [...state.possibleAnswerBoxes, index]
+export const useStore = create<RunStore>((set) => ({
+  isModalSetupVisible: true,
+  setIsModalSetupVisible: (visible: boolean) => 
+    set(() => ({
+        isModalSetupVisible: visible 
     })),
 
-    questions: new Array<Array<number>>(),
-    setQuestions: (questions: Array<Array<number>>) => set(() => ({
-        questions: questions
+  possibleAnswerBoxes: new Array<number>(),
+  setPossibleAnswerBoxes: (answerBoxes: number[]) => 
+    set(() => ({
+        possibleAnswerBoxes: answerBoxes
     })),
 
-    responses: new Array<Array<MathResponse>>(),
-    setResponses: (responses: Array<Array<MathResponse>>) => set(() => ({
-        responses: responses})),
-
-    questionLevel: 'low',
-    setQuestionLevel: (level: ('low' | 'medium' | 'hard')) => set(() => ({questionLevel: level}))
-}))
+  question: undefined,
+  setQuestion: (question: string) => 
+    set (() => ({
+        question: question
+    }))
+}));
