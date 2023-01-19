@@ -1,6 +1,6 @@
 export enum ShuffleType {
     None,
-    ByTable,
+    ByTripleTable,
     All
 }
 

@@ -1,5 +1,6 @@
 import { ShuffleType } from "./enum";
 import LevelConfig from "./LevelConfig";
+import MathAnswer from "./MathAnswer";
 import MathQuestion from "./MathQuestion";
 import MathRun from "./MathRun";
 
@@ -8,40 +9,48 @@ export default class MathGame {
   private runs: MathRun[];
   private levelConfig: LevelConfig;
 
-  public constructor(levelConfig: LevelConfig) {
+  public constructor(
+    runNumber: number,
+    runs: MathRun[],
+    levelConfig: LevelConfig
+  ) {
     this.levelConfig = levelConfig;
-    this.runs = this.CreateMathRuns();
+    this.runs = runs;
+    this.runNumber = runNumber;
   }
 
   public GetCurrentRun(): MathRun {
     return this.runs[this.runNumber];
   }
 
-  public SetNextRun() {
+  public NextRun() {
     this.runNumber++;
   }
 
-  private CreateMathRuns(): MathRun[] {
+  public InitializeMathRuns(): MathGame {
     let orderedQuestions = this.GetAllOrderedQuestions();
-    if (this.levelConfig.shuffleType === ShuffleType.All) {
-      return this.shuffleArray(orderedQuestions).map(
-        (value) => new MathRun(value, this.levelConfig.helpLevel)
-      );
-    }
-    if (this.levelConfig.shuffleType === ShuffleType.ByTable) {
-      let shuffledByTen = new Array<MathQuestion>();
-      for (let ten = 0; ten <= 100; ten += 10) {
-        shuffledByTen = shuffledByTen.concat(
-          this.shuffleArray(orderedQuestions.slice(ten, ten + 10))
+    switch (this.levelConfig.shuffleType) {
+      case ShuffleType.All:
+        this.runs = this.shuffleArray(orderedQuestions).map(
+          (value) => new MathRun(value, new Array<MathAnswer>(), this.levelConfig.helpLevel, 0)
         );
-      }
-      return shuffledByTen.map(
-        (value) => new MathRun(value, this.levelConfig.helpLevel)
-      );
+        break;
+      case ShuffleType.ByTripleTable:
+      default:
+        let shuffledByTripleTen = new Array<MathQuestion>();
+        for (let ten = 0; ten <= 90; ten += 30) {
+          shuffledByTripleTen = shuffledByTripleTen.concat(
+            this.shuffleArray(orderedQuestions.slice(ten, ten + 30))
+          ).concat(
+            this.shuffleArray(orderedQuestions.slice(91, 100))
+          );
+        }
+        this.runs = shuffledByTripleTen.map(
+          (value) => new MathRun(value, new Array<MathAnswer>(), this.levelConfig.helpLevel, 0)
+        );
+        break;
     }
-    return orderedQuestions.map(
-      (value) => new MathRun(value, this.levelConfig.helpLevel)
-    );
+    return this;
   }
 
   private GetAllOrderedQuestions(): MathQuestion[] {

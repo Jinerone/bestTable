@@ -1,8 +1,9 @@
-import {Modal, Radio, RadioChangeEvent} from 'antd';
+import {Input, Modal, Radio, RadioChangeEvent} from 'antd';
 import { useState } from 'react';
 import { useStore } from '../../business';
 import { HelpLevel, ShuffleType } from '../../business/domain/enum';
 import LevelConfig from '../../business/domain/LevelConfig';
+import { UserOutlined } from '@ant-design/icons';
 
 interface ModalSetupGameProps {
     onValidate: (levelConfig: LevelConfig, userName: string) => void;
@@ -32,7 +33,7 @@ export default function ModalSetupGame(props: ModalSetupGameProps): JSX.Element 
                 props.onValidate(new LevelConfig(ShuffleType.None, HelpLevel.Easy), "username");
             break;
             case "medium":
-                props.onValidate(new LevelConfig(ShuffleType.ByTable, HelpLevel.Medium), "username");
+                props.onValidate(new LevelConfig(ShuffleType.ByTripleTable, HelpLevel.Medium), "username");
             break;
             case "hard":
                 props.onValidate(new LevelConfig(ShuffleType.All, HelpLevel.Hard), "username");
@@ -46,17 +47,24 @@ export default function ModalSetupGame(props: ModalSetupGameProps): JSX.Element 
   return (
     <>
       <Modal
-        title="Basic Modal"
+        title="Configuration de la partie"
         open={isVisible}
         onOk={handleOk}
       >
+        <Input
+          size="large"
+          placeholder="Pseudonyme"
+          prefix={<UserOutlined />}
+        />
+        <br />
+        <br />
         <Radio.Group
-        options={options}
-        onChange={onChangeLevel}
-        value={selectedLevel}
-        optionType="button"
-        buttonStyle="solid"
-      />
+          options={options}
+          onChange={onChangeLevel}
+          value={selectedLevel}
+          optionType="button"
+          buttonStyle="solid"
+        />
       </Modal>
     </>
   );

@@ -3,74 +3,103 @@ import MathAnswer from "./MathAnswer";
 import MathQuestion from "./MathQuestion";
 
 export default class MathRun {
-    readonly question: MathQuestion;
-    readonly answer: MathAnswer;
-    readonly help: Array<number>;
+  readonly question: MathQuestion;
+  readonly wrongAnswers: MathAnswer[];
+  readonly helpLevel: HelpLevel;
+  public _completeTime: number;
+  public get isComplete(): boolean {
+    return this._completeTime > 0;
+  }
 
-    public constructor(question: MathQuestion, helpLevel: HelpLevel) {
-        this.question = question;
-        this.answer = new MathAnswer();
-        this.help = this.getHelpNumbers(helpLevel);
-    }
+  public constructor(
+    question: MathQuestion,
+    wrongAnswers: MathAnswer[],
+    helpLevel: HelpLevel,
+    completeTime: number
+  ) {
+    this.question = question;
+    this.wrongAnswers = wrongAnswers;
+    this.helpLevel = helpLevel;
+    this._completeTime = completeTime;
+  }
 
-    public addAnswer(number: number, time: number) {
-        if (this.question.getResult() === number)
-            this.answer.goodAnswerTime = time;
-            else this.answer.addBadAnswer(number, time);
-    }
+  public addAnswer(answer: number, time: number) {
+    if (this.question.getResult() === answer) this._completeTime = time;
+    else this.wrongAnswers.push(new MathAnswer(answer, time));
+  }
 
-    public isValidate(): boolean {
-        return this.answer.isValid();
+  public wrongAnswersNumber() {
+    return this.wrongAnswers.length;
+  }
+
+  public getHelpNumbers(): Array<number> {
+    switch (this.helpLevel) {
+      case HelpLevel.Hard:
+        return this.getHardHelpNumbers();
+      case HelpLevel.Medium:
+        return this.getMediumHelpNumbers();
+      case HelpLevel.Easy:
+        return this.getEasyHelpNumbers();
+      default:
+        return this.getNoneHelpNumbers();
+        break;
     }
-    
-    public getHelpNumbers(helpLevel: HelpLevel): Array<number> {
-        let helps = new Array<number>();
-        if(helpLevel == HelpLevel.Hard) {
-            for (let help = this.question.getResult(); help > 0; help -= 11) {
-                helps.push(help);
-                helps.push(help + 1);
-                helps.push(help - 1);
-                helps.push(help + 2);
-                helps.push(help - 2);
-            }
-            for (let help = this.question.getResult(); help <= 100; help += 11) {
-                helps.push(help);
-                helps.push(help + 1);
-                helps.push(help - 1);
-                helps.push(help + 2);
-                helps.push(help - 2);
-            }
-            return helps;
-        }
-        if(helpLevel == HelpLevel.Medium) {
-            for (let help = this.question.getResult(); help > 0; help-= 10) {
-                helps.push(help);
-                helps.push(help + 1);
-                helps.push(help - 1);
-            }
-            for (let help = this.question.getResult(); help <= 100; help+= 10) {
-                helps.push(help);
-                helps.push(help + 1);
-                helps.push(help - 1);
-            }
-            return helps;
-        }
-        if(helpLevel == HelpLevel.Easy) {
-            for (let help = this.question.getResult(); help > 0; help-= 10) {
-                helps.push(help);
-            }
-            for (let help = this.question.getResult(); help <= 100; help+= 10) {
-                helps.push(help);
-            }
-            return helps;
-        }
-        if(helpLevel == HelpLevel.None) {
-            for (let help = 1; help >= 100; help++) {
-                helps.push(help);
-            }
-            return helps;
-        }
-        return helps;
+  }
+
+  private getHardHelpNumbers() {
+    let helps = new Array<number>();
+    for (let help = this.question.getResult(); help > 0; help -= 11) {
+      helps.push(help);
+      helps.push(help + 1);
+      helps.push(help - 1);
+      helps.push(help + 2);
+      helps.push(help - 2);
     }
+    for (let help = this.question.getResult(); help <= 100; help += 11) {
+      helps.push(help);
+      helps.push(help + 1);
+      helps.push(help - 1);
+      helps.push(help + 2);
+      helps.push(help - 2);
+    }
+    return helps;
+  }
+
+  private getMediumHelpNumbers() {
+    let helps = new Array<number>();
+    for (let help = this.question.getResult(); help > 0; help -= 10) {
+      helps.push(help);
+      helps.push(help + 1);
+      helps.push(help - 1);
+    }
+    for (let help = this.question.getResult(); help <= 100; help += 10) {
+      helps.push(help);
+      helps.push(help + 1);
+      helps.push(help - 1);
+    }
+    return helps;
+  }
+
+  private getEasyHelpNumbers() {
+    let helps = new Array<number>();
+    let j = Math.floor(Math.random() * 4) + 6;
+    for (let help = this.question.getResult(); help > 0; help -= j) {
+      j = Math.floor(Math.random() * 4) + 6;
+      helps.push(help);
+    }
+    for (let help = this.question.getResult(); help <= 100; help += j) {
+      helps.push(help);
+      j = Math.floor(Math.random() * 4) + 6;
+      helps.push(help);
+    }
+    return helps;
+  }
+
+  private getNoneHelpNumbers() {
+    let helps = new Array<number>();
+    for (let help = 1; help <= 100; help++) {
+      helps.push(help);
+    }
+    return helps;
+  }
 }
-

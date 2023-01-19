@@ -1,10 +1,12 @@
 export default class MathQuestion {
-    readonly leftOperator: number;
-    readonly rightOperator: number;
+    private leftOperator: number;
+    private rightOperator: number;
+    readonly label: string;
     
     public constructor(leftOperator: number, rightOperator: number) {
         this.leftOperator = leftOperator;
         this.rightOperator = rightOperator;
+        this.label = `${this.leftOperator} x ${this.rightOperator}`;
     }
 
     public getResult(): number {

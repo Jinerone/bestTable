@@ -7,6 +7,7 @@ const styles = {
 };
 
 interface AnswerGridProps {
+  helps: number[];
   onAnswer: (number: number) => void;
 }
 
@@ -20,7 +21,7 @@ export default function AnswerGrid(props: AnswerGridProps): JSX.Element {
     <Card style={styles}>
       <Space direction="vertical">
         {[...Array(10)].map((index, key) => (
-          <AnswerRow key={key} ten={ten++} onAnswer={handleAnswer}/>
+          <AnswerRow key={key} ten={ten++} helps={props.helps} onAnswer={handleAnswer}/>
         ))}
       </Space>
     </Card>
