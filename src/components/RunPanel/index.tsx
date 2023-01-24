@@ -14,30 +14,32 @@ interface RunPanelProps {
 
 export default function RunPanel(props: RunPanelProps) {
   let [wrongAnswersNumber, setWrongAnswersNumber] = useState<number>(0);
-  let [answerTime, setAnswerTime] = useState<number>(0);
-  
+  let [refreshNumber, setRefreshNumber] = useState<number>(0);
+  let [helpNumbers, setHelpNumbers] = useState<number[]>(props.mathRun.getHelpNumbers())
+
   function handleAnswer(answerNumber: number) {
-    props.mathRun.addAnswer(answerNumber, answerTime);
+    props.mathRun.addAnswer(answerNumber);
     setWrongAnswersNumber(props.mathRun.wrongAnswersNumber());
     if (props.mathRun.isComplete) {
         props.onNextRun();
-        setAnswerTime(0);
+        setRefreshNumber(refreshNumber + 1);
+        setWrongAnswersNumber(0);
     }
-  }
+  }  
 
   useEffect(() => {
-    const timer = setInterval(() => setAnswerTime(s => s +1), 1000);
-    return () => clearInterval(timer);
-  }, [answerTime]);
+    setHelpNumbers(props.mathRun.getHelpNumbers());
+  }, [props.mathRun])
+  
 
   return (
     <>
       <QuestionTag question={props.mathRun.question} />
       <Space direction="horizontal">
         <BadPointsBar badNumber={wrongAnswersNumber} />
-        <Timer seconds={answerTime} />
+        <Timer refreshNumber={refreshNumber} />
       </Space>
-      <AnswerGrid helps={props.mathRun.getHelpNumbers()} onAnswer={handleAnswer} />
+      <AnswerGrid helps={helpNumbers} onAnswer={handleAnswer} />
     </>
   );
 }

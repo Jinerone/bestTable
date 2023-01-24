@@ -6,26 +6,26 @@ export default class MathRun {
   readonly question: MathQuestion;
   readonly wrongAnswers: MathAnswer[];
   readonly helpLevel: HelpLevel;
-  public _completeTime: number;
+  public _completeDate: Date | undefined;
   public get isComplete(): boolean {
-    return this._completeTime > 0;
+    return this._completeDate !== undefined;
   }
 
   public constructor(
     question: MathQuestion,
     wrongAnswers: MathAnswer[],
     helpLevel: HelpLevel,
-    completeTime: number
+    completeTime: Date | undefined
   ) {
     this.question = question;
     this.wrongAnswers = wrongAnswers;
     this.helpLevel = helpLevel;
-    this._completeTime = completeTime;
+    this._completeDate = completeTime;
   }
 
-  public addAnswer(answer: number, time: number) {
-    if (this.question.getResult() === answer) this._completeTime = time;
-    else this.wrongAnswers.push(new MathAnswer(answer, time));
+  public addAnswer(answer: number) {
+    if (this.question.getResult() === answer) this._completeDate = new Date();
+    else this.wrongAnswers.push(new MathAnswer(answer, new Date()));
   }
 
   public wrongAnswersNumber() {

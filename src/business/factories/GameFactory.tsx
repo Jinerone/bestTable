@@ -55,7 +55,7 @@ export default class GameFactory {
     try {
       const result = new Array<MathAnswer>();
       savedAnswers.forEach((answer: MathAnswer) => {
-        result.push(new MathAnswer(answer.answer, answer.answerTime))
+        result.push(new MathAnswer(answer.answer, answer.answerDate))
       });
       return result;
     } catch (error) {

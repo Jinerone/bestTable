@@ -1,9 +1,9 @@
 export default class MathAnswer {
-  readonly answerTime: number;
+  readonly answerDate: Date;
   readonly answer: number;
 
-  public constructor(answer: number, time: number) {
-    this.answerTime = time;
+  public constructor(answer: number, date: Date) {
+    this.answerDate = date;
     this.answer = answer;
   }
 }

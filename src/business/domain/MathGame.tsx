@@ -32,7 +32,7 @@ export default class MathGame {
     switch (this.levelConfig.shuffleType) {
       case ShuffleType.All:
         this.runs = this.shuffleArray(orderedQuestions).map(
-          (value) => new MathRun(value, new Array<MathAnswer>(), this.levelConfig.helpLevel, 0)
+          (value) => new MathRun(value, new Array<MathAnswer>(), this.levelConfig.helpLevel, undefined)
         );
         break;
       case ShuffleType.ByTripleTable:
@@ -46,7 +46,7 @@ export default class MathGame {
           );
         }
         this.runs = shuffledByTripleTen.map(
-          (value) => new MathRun(value, new Array<MathAnswer>(), this.levelConfig.helpLevel, 0)
+          (value) => new MathRun(value, new Array<MathAnswer>(), this.levelConfig.helpLevel, undefined)
         );
         break;
     }
