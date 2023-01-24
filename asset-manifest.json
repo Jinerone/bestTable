@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/bestTable/static/css/main.6c6c78d1.css",
-    "main.js": "/bestTable/static/js/main.e438fbc4.js",
-    "static/js/787.606cf71b.chunk.js": "/bestTable/static/js/787.606cf71b.chunk.js",
-    "index.html": "/bestTable/index.html",
-    "main.6c6c78d1.css.map": "/bestTable/static/css/main.6c6c78d1.css.map",
-    "main.e438fbc4.js.map": "/bestTable/static/js/main.e438fbc4.js.map",
-    "787.606cf71b.chunk.js.map": "/bestTable/static/js/787.606cf71b.chunk.js.map"
+    "main.css": "/bestTable/index/static/css/main.6c6c78d1.css",
+    "main.js": "/bestTable/index/static/js/main.ff9c9950.js",
+    "static/js/787.606cf71b.chunk.js": "/bestTable/index/static/js/787.606cf71b.chunk.js",
+    "index.html": "/bestTable/index/index.html",
+    "main.6c6c78d1.css.map": "/bestTable/index/static/css/main.6c6c78d1.css.map",
+    "main.ff9c9950.js.map": "/bestTable/index/static/js/main.ff9c9950.js.map",
+    "787.606cf71b.chunk.js.map": "/bestTable/index/static/js/787.606cf71b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6c6c78d1.css",
-    "static/js/main.e438fbc4.js"
+    "static/js/main.ff9c9950.js"
   ]
 }
